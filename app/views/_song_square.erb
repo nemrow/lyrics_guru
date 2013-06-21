@@ -1,0 +1,29 @@
+<% @songs.each_with_index do |song, index| %>
+	<div class="indi-song-shell indi-song-shell-id-<%= index %>">
+		<img src="<%= song.img %>">
+			<h3><%= song.artist %></h3>
+			<p><%= song.title %></p>
+	    <div id="jquery_jplayer_<%= index %>" class="jp-jplayer"></div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#jquery_jplayer_<%= index %>").jPlayer({
+		    ready: function () {
+		      $(this).jPlayer("setMedia", {
+		      mp3: "<%= song.audio_sample %>"
+		      });
+		    },
+		    swfPath: "/js",
+		    supplied: "mp3"
+		  });
+		  $('.indi-song-shell-id-<%= index %>').bind({
+		  	mouseenter: function(){
+		  		$("#jquery_jplayer_<%= index %>").jPlayer("play")
+		  	}, 
+		  	mouseleave: function(){
+		  		$("#jquery_jplayer_<%= index %>").jPlayer("pause")
+		  	}
+		  })
+		});
+	</script>
+<% end %>

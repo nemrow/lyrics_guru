@@ -1,0 +1,27 @@
+<h1 class="logo">Lyrics Guru</h1>
+<div class="container">
+	<form class="song-lookup">
+		<input type="text" name="lyrics" placeholder="Enter your lyrics here!"><br>
+		<input type="submit" value="Lookup Song!">
+	</form>
+	<div class="songs-container">
+	</div>
+</div>
+<script>
+	$(document).ready(function(){
+		$('.song-lookup').submit(function(event){
+			event.preventDefault();
+			$('.songs-container').html("<img src='img/loading_anim.gif'>");
+			$(".song-lookup input[type='submit']").hide();
+			var input_data = $('.song-lookup').serialize();
+			$.post('/find_song', input_data, function(data_returned){
+				if (data_returned != ''){
+					$('.songs-container').html(data_returned);
+				}else{
+					$('.songs-container').html("<h1>Sorry, no song with that title</h1>");
+				}
+				$(".song-lookup input[type='submit']").show();
+			})
+		})
+	})
+</script>
